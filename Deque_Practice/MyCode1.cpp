@@ -35,8 +35,8 @@ public:
 			return false;
 		}
 
-	}//test2
 	}
+	
 	void push_front(int val)
 	{
 		if (isFull())
@@ -51,6 +51,7 @@ public:
 			size++;
 		}
 	}
+
 	void push_rear(int val)
 	{
 		if (isFull())
