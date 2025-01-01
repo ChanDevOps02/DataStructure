@@ -36,6 +36,7 @@ public:
 		}
 
 	}//test2
+	}
 	void push_front(int val)
 	{
 		if (isFull())
