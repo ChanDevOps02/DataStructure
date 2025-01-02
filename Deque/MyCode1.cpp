@@ -1,21 +1,22 @@
 #include <iostream>
-#define MAX_SIZE 100
 using namespace std;
 class Deque
 {
 private:
-	int arr[MAX_SIZE];
+	int* arr;
 	int size;
-	int front;
+	int Max_Size;
 	int rear;
+	int front;
 public:
-	Deque() : size(0), front(0), rear(0)
+	Deque(int capacity) : size(0), rear(0), front(0)
 	{
-		/**/
+		arr = new int[capacity];
+		Max_Size = capacity;
 	}
 	bool isFull()
 	{
-		if (size == MAX_SIZE)
+		if (size == Max_Size)
 		{
 			return true;
 		}
@@ -35,84 +36,71 @@ public:
 			return false;
 		}
 	}
-	void push_front(int val)
+	void Front_Push(int val)
 	{
 		if (isFull())
 		{
 			cout << "Deque is Full!" << endl;
 			return;
 		}
-		else
-		{
-			arr[front] = val;
-			front = (front + 1) % MAX_SIZE;
-			size++;
-		}
+		front = (front - 1 + Max_Size) % Max_Size;
+		arr[front] = val;
+		size++;
 	}
-	void push_rear(int val)
+	void Rear_Push(int val)
 	{
 		if (isFull())
 		{
-			cout << "Deque is FUll!" << endl;
+			cout << "Deque is Full!" << endl;
 			return;
 		}
-		else
-		{
-			rear = (rear - 1 + MAX_SIZE) % MAX_SIZE;
-			arr[rear] = val;
-			size++;
-		}
+		arr[rear] = val;
+		rear = (rear + 1) % Max_Size;
 	}
-	void pop_front()
+	void Front_Pop()
 	{
 		if (isEmpty())
 		{
-			cout << "Deque is empty!" << endl;
+			cout << "Deque is already Empty!" << endl;
 			return;
 		}
-		else
-		{
-			front = (front - 1 + MAX_SIZE) % MAX_SIZE;
-			size--;
-		}
+		front = (front + 1) % Max_Size;
+		size--;
 	}
-	void pop_rear()
+	void Rear_Pop()
 	{
 		if (isEmpty())
 		{
-			cout << "Deque is Empty!" << endl;
+			cout << "Deque is already Empty" << endl;
 			return;
 		}
-		else
-		{
-			rear = (rear + 1) % MAX_SIZE;
-			size--;
-		}
+		rear = (rear - 1 + Max_Size) % Max_Size;
+		size--;
 	}
 	int GetFront()
 	{
-		return arr[(front - 1 + MAX_SIZE) % MAX_SIZE];
+		return arr[front];
 	}
 	int GetRear()
 	{
-		return arr[rear];
+		return arr[(rear - 1 + Max_Size) % Max_Size];
 	}
 };
 int main(void)
 {
-	Deque mydeque;
-	mydeque.push_front(10);
-	mydeque.push_front(20);
-	mydeque.push_rear(90); 
-	mydeque.push_rear(100); //10 20     100 90
+	Deque myDeque(5);
+	myDeque.Rear_Push(10);
+	myDeque.Rear_Push(20); //10 20
+	myDeque.Front_Push(30);
+	myDeque.Front_Push(40); //40 30
 
-	cout << "Front Value : " << mydeque.GetFront() << endl;//20
-	cout << "Rear Value : " << mydeque.GetRear() << endl;//100
+	cout << "Front Value : " << myDeque.GetFront() << endl; //40
+	cout << "Rear Value : " << myDeque.GetRear() << endl; //20
 
-	mydeque.pop_front(); //20 delete
-	mydeque.pop_rear(); //100 delete
+	myDeque.Front_Pop();
+	myDeque.Rear_Pop(); //10 30
 
-	cout << "Front Value : " << mydeque.GetFront() << endl; //10
-	cout << "Rear Value : " << mydeque.GetRear() << endl; //90
+	cout << "Front Value : " << myDeque.GetFront() << endl;
+	cout << "Rear Value : " << myDeque.GetRear() << endl;
 	return 0;
 }
